@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +22,11 @@ import java.util.Locale;
 
 public class HomeTab extends androidx.fragment.app.Fragment {
     private static final String TAG = "Renew Data";
+    private IntentFilter filter;
     private TextView purchased_tmView, expiry_tmView, tm_leftView;
     private Utils utils;
     private TimeManager timeManager;
-    private DatabaseHelper databaseHelper;
-    private String format_style;
+    private String format_style, remindBeforeInMins;
     private boolean in24hrsFormat;
     private BroadcastReceiver smsReceivedListener = new BroadcastReceiver() {
         @Override
@@ -35,18 +34,12 @@ public class HomeTab extends androidx.fragment.app.Fragment {
             String action = intent.getAction();
             if (action != null) {
                 // When new sms is received
-                if (action.equals("android.intent.action.SmsReceiver")) {
-                    // Extract it's details
-                    String msg_from = intent.getStringExtra("msg_from");
-                    String message = intent.getStringExtra("msg_body");
-                    long received_date = intent.getLongExtra("timestampMillis", -1);
-                    // check if it's from Telkom
-                    if (msg_from != null && msg_from.toLowerCase().contains(getString(R.string.telkom).toLowerCase())) {
-                        // Save it  to db
-                        databaseHelper.create_or_update_logs(msg_from, message, received_date);
-                        // after saving, update timeline data
-                        setTimeLineData();
-                    }
+                if (action.equals(filter.getAction(0))) {
+                    // update timeline data
+                    setTimeLineData();
+
+                    // Reset Alarm Reminder
+                    setAlarmReminder();
                 }
             }
         }
@@ -65,21 +58,21 @@ public class HomeTab extends androidx.fragment.app.Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         in24hrsFormat = preferences.getBoolean("twenty4_hour_clock", false);
         format_style = preferences.getString("format_style", getString(R.string.default_date_format));
-        String remindBeforeInMins = preferences.getString("remindBeforeInMinutes", getString(R.string.default_reminder_time));
+        remindBeforeInMins = preferences.getString("remindBeforeInMinutes", getString(R.string.default_reminder_time));
 
         // Set event listener for renew now btn
 //        renew_now.setOnClickListener(v -> initRenewProcess());
-
+        // register receiver
+        filter = new IntentFilter(getContext().getString(R.string.action_smsReceiver));
+        getContext().registerReceiver(smsReceivedListener, filter);
         utils = new Utils();
-        // initialize DatabaseHelper
-        databaseHelper = new DatabaseHelper(getContext());
         // Initialize timeManager
         timeManager = new TimeManager(getContext());
         // Populate Timeline fields
         setTimeLineData();
 
         // Set Alarm Reminder
-        setAlarmReminder(Integer.parseInt(remindBeforeInMins));
+        setAlarmReminder();
         return root;
     }
 
@@ -93,12 +86,12 @@ public class HomeTab extends androidx.fragment.app.Fragment {
             purchased_tmView.setText(purchase_date);
             expiry_tmView.setText(expiry_date);
 
-            setTimeLeft();
+            setTimeLeft(timeManager.getTimeLeftInMillis());
         }
     }
 
-    private void setTimeLeft() {
-        new CountDownTimer(timeManager.getTimeLeftInMillis(), 1000) {
+    private void setTimeLeft(long timeLeft) {
+        new CountDownTimer(timeLeft, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 updateTimeLeftCountDown(millisUntilFinished);
@@ -121,8 +114,7 @@ public class HomeTab extends androidx.fragment.app.Fragment {
         tm_leftView.setText(formatted_time_left);
     }
 
-    private void setAlarmReminder(int remindBeforeInMins) {
-        Log.d(TAG, "In setAlarmReminder Method");
+    private void setAlarmReminder() {
         // Set notification and time left
         Intent intent = new Intent(getContext(), BroadcastManager.class);
         intent.putExtra("remindBeforeInMins", remindBeforeInMins);
@@ -132,12 +124,14 @@ public class HomeTab extends androidx.fragment.app.Fragment {
 
         AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Activity.ALARM_SERVICE);
 
+        int remBeforeInMins = Integer.parseInt(remindBeforeInMins);
+
         // create time to ring;
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timeManager.getExpiry_time());
         // time in minutes to remind before to renew before expiry
         // Note the -ve sign is to make it before.
-        calendar.add(Calendar.MINUTE, -(remindBeforeInMins));
+        calendar.add(Calendar.MINUTE, -(remBeforeInMins));
         long alarmStartTime = calendar.getTimeInMillis();
         if (timeManager.isExpired()) {
             // Cancel Alarm when expiry date is passed
@@ -146,7 +140,7 @@ public class HomeTab extends androidx.fragment.app.Fragment {
             }
         } else {
             // Set Alarm
-            if (alarmManager != null && timeManager.getTimeLeftInMins() >= remindBeforeInMins) {
+            if (alarmManager != null && timeManager.getTimeLeftInMins() >= remBeforeInMins) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmStartTime, pendingIntent);
             }
             // for cases where time left is less than reminderBeforeTime
@@ -177,9 +171,7 @@ public class HomeTab extends androidx.fragment.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.intent.action.SmsReceiver");
         getContext().registerReceiver(smsReceivedListener, filter);
     }
-
 }
+

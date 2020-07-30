@@ -186,9 +186,6 @@ public class LogsTab extends androidx.fragment.app.Fragment {
             } else {
                 nothing_to_show.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Done updating logs.", Toast.LENGTH_SHORT).show();
-                }
             }
             recyclerView.setAdapter(logsAdapter);
         }

@@ -15,9 +15,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 public class BroadcastManager extends BroadcastReceiver {
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
+        // initialize DatabaseHelper
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
         int notificationId = 0;
         if (action != null) {
             switch (action) {
@@ -27,11 +30,12 @@ public class BroadcastManager extends BroadcastReceiver {
                         String msg_from = smsMessage.getOriginatingAddress();
                         String msg_body = smsMessage.getMessageBody();
                         long timestampMillis = smsMessage.getTimestampMillis();
-                        Intent i = new Intent("android.intent.action.SmsReceiver");
-                        i.putExtra("msg_from", msg_from);
-                        i.putExtra("msg_body", msg_body);
-                        i.putExtra("timestampMillis", timestampMillis);
-                        context.sendBroadcast(i);
+                        // check if it's from Telkom
+                        if (msg_from.toLowerCase().contains(context.getString(R.string.telkom).toLowerCase())) {
+                            // Save it  to db
+                            databaseHelper.create_or_update_logs(msg_from, msg_body, timestampMillis);
+                            context.sendBroadcast(new Intent(context.getString(R.string.action_smsReceiver)));
+                        }
                     }
                     break;
                 case "android.intent.startAlarm":

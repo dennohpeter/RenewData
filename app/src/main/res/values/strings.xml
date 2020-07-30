@@ -50,6 +50,7 @@
     <string name="update_message">Please update to the new version to get new features.</string>
     <string name="close">CLOSE</string>
     <string name="changelog">Changelog</string>
+    <string name="action_smsReceiver">action.SmsReceiver</string>
 
     // supported networks
     <string-array name="networks">
