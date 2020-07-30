@@ -16,6 +16,6 @@ public class Welcome extends Activity {
             Intent intent = new Intent(Welcome.this, MainActivity.class);
             startActivity(intent);
             finish();
-        }, 3000);
+        }, 2000);
     }
 }
