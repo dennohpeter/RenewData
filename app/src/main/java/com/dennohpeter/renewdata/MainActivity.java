@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUp
         int id = item.getItemId();
         if (id == R.id.action_change_theme){
            SharedPreferences.Editor editor = preferences.edit();
-            Toast.makeText(this, ""+isNightModeOn, Toast.LENGTH_LONG).show();
             if (isNightModeOn){
                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 editor.putBoolean("NightMode", false);
