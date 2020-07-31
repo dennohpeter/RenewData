@@ -18,8 +18,8 @@
         android:layout_below="@id/app_icon"
         android:layout_centerHorizontal="true"
         android:text="@string/app_name"
-        android:textColor="#000000"
-        android:textSize="22sp" />
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,7 +27,11 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp"
+        android:fontFamily="@font/sanchez"
+        android:lineSpacingExtra="18sp"
         android:text="@string/copyright"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textColor="#1e1e1e"
         android:textSize="14sp" />
 

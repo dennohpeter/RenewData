@@ -1,14 +1,5 @@
 <changelog>
     <release
-        date="2020-04-22"
-        versionName="First Release"
-        versionCode="100">
-        <new>Initial Release</new>
-        <new>Push Notification Reminder</new>
-        <new>Automatic ability to sync with messages</new>
-        <misc>Many Other Features Discover them Yourself!</misc>
-    </release>
-    <release
         date="2020-08-01"
         versionName="Version 1.5"
         versionCode="150">
@@ -22,5 +13,14 @@
         <todo>Support more networks</todo>
         <todo>Add auto renew capability while offline</todo>
         <todo>Enable user to snooze data renewal</todo>
+    </release>
+    <release
+        date="2020-04-22"
+        versionName="First Release"
+        versionCode="100">
+        <new>Initial Release</new>
+        <new>Push Notification Reminder</new>
+        <new>Automatic ability to sync with messages</new>
+        <misc>Many Other Features Discover them Yourself!</misc>
     </release>
 </changelog>
