@@ -7,9 +7,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
-public class LogsAdapter extends RecyclerView.Adapter<LogsViewHolder> {
+public class LogsAdapter extends RecyclerView.Adapter<LogsViewHolder> implements FastScrollRecyclerView.SectionedAdapter {
     private ArrayList<MessageModel> messages;
 
     LogsAdapter() {
@@ -41,5 +45,12 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsViewHolder> {
     @Override
     public int getItemCount() {
         return messages.size();
+    }
+
+    @NotNull
+    @Override
+    public String getSectionName(int position) {
+        return messages.get(position).getDate();
+
     }
 }

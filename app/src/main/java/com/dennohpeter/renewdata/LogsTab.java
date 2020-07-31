@@ -12,6 +12,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,7 +27,6 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,9 +39,16 @@ public class LogsTab extends androidx.fragment.app.Fragment {
     private LogsAdapter logsAdapter;
     private String format_style;
     private boolean in24hrsFormat;
-    private SwipeRefreshLayout pullToRefresh;
     private ProgressDialog progressDialog;
     private SQLiteDatabase db;
+    private MenuItem refreshMessages;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +58,7 @@ public class LogsTab extends androidx.fragment.app.Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         nothing_to_show = root.findViewById(R.id.nothing_to_show);
-        pullToRefresh = root.findViewById(R.id.logsContainer);
+
         // get preferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         in24hrsFormat = preferences.getBoolean("twenty4_hour_clock", false);
@@ -59,19 +68,28 @@ public class LogsTab extends androidx.fragment.app.Fragment {
         recyclerView.setAdapter(logsAdapter);
         databaseHelper = new DatabaseHelper(getContext());
         new populateRecyclerView().execute();
-        setSwipeRefreshView();
         return root;
     }
 
-    private void setSwipeRefreshView() {
-        // the refreshing colors
-        pullToRefresh.setColorSchemeColors(getResources().
-                        getColor(android.R.color.holo_blue_bright),
-                getResources().getColor(android.R.color.holo_green_light)
-                , getResources().getColor(android.R.color.holo_orange_light),
-                getResources().getColor(android.R.color.holo_red_light));
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        refreshMessages = menu.add(getContext().getString(R.string.refreshMessages));
+        refreshMessages.setIcon(R.drawable.ic_refresh);
+        refreshMessages.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        pullToRefresh.setOnRefreshListener(this::refreshMessages);
+
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item == refreshMessages){
+        // refresh messages
+        refreshMessages();
+        return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void refreshMessages() {
@@ -99,8 +117,6 @@ public class LogsTab extends androidx.fragment.app.Fragment {
             showRequestPermissionsInfoAlertDialog(getContext(), activity);
         } else {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
-            // disable loading
-            pullToRefresh.setRefreshing(false);
         }
     }
 
@@ -111,11 +127,8 @@ public class LogsTab extends androidx.fragment.app.Fragment {
         builder.setPositiveButton(R.string.action_ok, (dialog, which) -> {
             //  request runtime permission
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
-            // disable loading
-            pullToRefresh.setRefreshing(false);
         }).setNegativeButton("Not Now", (dialog, which) -> {
             dialog.dismiss();
-            pullToRefresh.setRefreshing(false);
             Toast.makeText(context, "Syncing cancelled..", Toast.LENGTH_SHORT).show();
         });
         builder.setCancelable(false);
@@ -188,6 +201,7 @@ public class LogsTab extends androidx.fragment.app.Fragment {
                 recyclerView.setVisibility(View.VISIBLE);
             }
             recyclerView.setAdapter(logsAdapter);
+
         }
     }
 
@@ -255,8 +269,6 @@ public class LogsTab extends androidx.fragment.app.Fragment {
                 }
             }
             cursor.close();
-            // Stop refreshing
-            pullToRefresh.setRefreshing(false);
         }
     }
 

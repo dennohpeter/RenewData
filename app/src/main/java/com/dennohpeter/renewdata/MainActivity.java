@@ -3,10 +3,14 @@ package com.dennohpeter.renewdata;
 import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -24,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TabLayout tabLayout = findViewById(R.id.tabs);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
 
         // check update
         check_update();
@@ -112,5 +118,22 @@ public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUp
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
         Log.d(TAG, "Permission has been denied");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.dashboard, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_change_theme){
+            Toast.makeText(this, "change theme", Toast.LENGTH_LONG).show();
+            return  true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

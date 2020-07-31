@@ -51,6 +51,8 @@
     <string name="close">CLOSE</string>
     <string name="changelog">Changelog</string>
     <string name="action_smsReceiver">action.SmsReceiver</string>
+    <string name="change_theme">Change theme</string>
+    <string name="refreshMessages">Refresh messages</string>
 
     // supported networks
     <string-array name="networks">
