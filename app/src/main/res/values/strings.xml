@@ -5,7 +5,6 @@
     <string name="purchased_time">Purchased Time</string>
     <string name="expiry_time">Expiry Time</string>
     <string name="time_left">Time Left</string>
-    <string name="renew_now">Renew Now</string>
     <string name="expired">Expired</string>
     <string name="not_date">__:__:__</string>
     <string name="feedback_and_suggestions">Feedback &amp; Suggestions</string>
@@ -33,7 +32,6 @@
     <string name="nothing_to_show">Nothing to show.\n Try <b>refreshing…</b></string>
     <string name="action_ok">Continue</string>
     <string name="subscribed">subscribed</string>
-    <string name="exhausted">exhausted</string>
     <string name="twenty_four_hour_fmt">Check to display the time in a 24 hour format.</string>
     <string name="twelve_hour_fmt">Uncheck to display the time in a 12 hour format using AM and PM.</string>
     <string name="default_reminder_time">10</string>

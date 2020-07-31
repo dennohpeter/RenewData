@@ -1,6 +1,7 @@
 package com.dennohpeter.renewdata;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -22,6 +24,8 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUpdateCheckListener, EasyPermissions.PermissionCallbacks {
     private static final String TAG = "MainActivity";
     private static final int WRITE_REQUEST_CODE = 300;
+    private SharedPreferences preferences;
+    private Boolean isNightModeOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,15 @@ public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUp
 
             }
         });
+
+        preferences = getSharedPreferences("AppSettingPrefs", 0);
+        isNightModeOn = preferences.getBoolean("NightMode", false);
+
+        if (isNightModeOn){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     public void check_update() {
@@ -131,7 +144,18 @@ public class MainActivity extends AppCompatActivity implements UpdateHelper.OnUp
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_change_theme){
-            Toast.makeText(this, "change theme", Toast.LENGTH_LONG).show();
+           SharedPreferences.Editor editor = preferences.edit();
+            Toast.makeText(this, ""+isNightModeOn, Toast.LENGTH_LONG).show();
+            if (isNightModeOn){
+               AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                editor.putBoolean("NightMode", false);
+
+            }else {
+               AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                editor.putBoolean("NightMode", true);
+            }
+            editor.apply();
+
             return  true;
         }
         return super.onOptionsItemSelected(item);
