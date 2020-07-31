@@ -7,13 +7,20 @@
         <new>Push Notification Reminder</new>
         <new>Automatic ability to sync with messages</new>
         <misc>Many Other Features Discover them Yourself!</misc>
+    </release>
+    <release
+        date="2020-08-01"
+        versionName="Version 1.5"
+        versionCode="150">
+        <new>Added night theme</new>
+        <new>Fixed error in automatic sync with messages</new>
+        <new>Added first scroll preview for log messages</new>
+        <misc>Bug fixes</misc>
 
         <info>TODO</info>
         <todo>Integrate with M-pesa</todo>
         <todo>Support more networks</todo>
         <todo>Add auto renew capability while offline</todo>
-        <todo>Add themes</todo>
         <todo>Enable user to snooze data renewal</todo>
-        <todo>Bug fixes.</todo>
     </release>
 </changelog>
