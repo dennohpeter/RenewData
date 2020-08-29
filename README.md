@@ -6,7 +6,7 @@ It's designed with intent to help you automate stuff and give you more time to f
 <hr>
 
 ## :hammer_and_wrench: Downloads
-**V 1.5.0** _on the make_.
+**V 1.5.0** [Get it here.](https://github.com/dennohpeter/RenewData/raw/master/app/release/Renew%20Data%20v1.5.apk)
 
 **V 1.0.0** Get it : https://bit.ly/getrenewdata
 ## :rocket: Previews
