@@ -1,4 +1,4 @@
-package com.dennohpeter.renewdata;
+package com.dennohpeter.renewdata.ui.home;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -17,17 +17,22 @@ import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
 
+import com.dennohpeter.renewdata.BroadcastManager;
+import com.dennohpeter.renewdata.R;
+import com.dennohpeter.renewdata.TimeManager;
+import com.dennohpeter.renewdata.Utils;
+
 import java.util.Calendar;
 import java.util.Locale;
 
-public class HomeTab extends androidx.fragment.app.Fragment {
-    private static final String TAG = "Renew Data";
+public class HomeFragment extends androidx.fragment.app.Fragment {
     private IntentFilter filter;
     private TextView purchased_tmView, expiry_tmView, tm_leftView;
     private Utils utils;
     private TimeManager timeManager;
     private String format_style, remindBeforeInMins;
     private boolean in24hrsFormat;
+    private Context context;
     private BroadcastReceiver smsReceivedListener = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -47,7 +52,8 @@ public class HomeTab extends androidx.fragment.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.home_tab, container, false);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        this.context = getContext();
         // Bind fields
         purchased_tmView = root.findViewById(R.id.purchased_time);
         expiry_tmView = root.findViewById(R.id.expiry_time);
@@ -55,16 +61,19 @@ public class HomeTab extends androidx.fragment.app.Fragment {
 
 //        Button renew_now = root.findViewById(R.id.renew_now);
         // get preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         in24hrsFormat = preferences.getBoolean("twenty4_hour_clock", false);
         format_style = preferences.getString("format_style", getString(R.string.default_date_format));
         remindBeforeInMins = preferences.getString("remindBeforeInMinutes", getString(R.string.default_reminder_time));
+        if (remindBeforeInMins != null) {
+            remindBeforeInMins = remindBeforeInMins.split(" ")[0];
+        }
 
         // Set event listener for renew now btn
 //        renew_now.setOnClickListener(v -> initRenewProcess());
         // register receiver
-        filter = new IntentFilter(getContext().getString(R.string.action_smsReceiver));
-        getContext().registerReceiver(smsReceivedListener, filter);
+        filter = new IntentFilter(context.getString(R.string.action_smsReceiver));
+        context.registerReceiver(smsReceivedListener, filter);
         utils = new Utils();
         // Initialize timeManager
         timeManager = new TimeManager(getContext());
@@ -99,7 +108,7 @@ public class HomeTab extends androidx.fragment.app.Fragment {
 
             @Override
             public void onFinish() {
-                tm_leftView.setText(getContext().getString(R.string.expired));
+                tm_leftView.setText(context.getString(R.string.expired));
             }
         }.start();
 
@@ -122,7 +131,7 @@ public class HomeTab extends androidx.fragment.app.Fragment {
         // getBroadCast(context, requestCode, intent, flags)
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Activity.ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
 
         int remBeforeInMins = Integer.parseInt(remindBeforeInMins);
 
@@ -161,7 +170,7 @@ public class HomeTab extends androidx.fragment.app.Fragment {
         // Paused activities cannot receive broadcasts anyway
         try {
             if (smsReceivedListener != null) {
-                getContext().unregisterReceiver(smsReceivedListener);
+                context.unregisterReceiver(smsReceivedListener);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,7 +180,7 @@ public class HomeTab extends androidx.fragment.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getContext().registerReceiver(smsReceivedListener, filter);
+        context.registerReceiver(smsReceivedListener, filter);
     }
 }
 

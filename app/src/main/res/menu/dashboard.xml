@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_change_theme"
-        android:title="@string/change_theme"
         android:icon="@drawable/ic_change_theme"
         android:orderInCategory="100"
-        app:showAsAction="always"/>
+        android:title="@string/change_theme"
+        app:showAsAction="always" />
 </menu>

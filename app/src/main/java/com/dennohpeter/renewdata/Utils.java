@@ -11,7 +11,7 @@ import java.util.Locale;
 /*
  * Houses commonly used date functions
  */
-class Utils {
+public class Utils {
     // Takes @param context and returns app version as String e.g 1.0
     static String getAppVersion(Context context) {
         String result = "";
@@ -26,7 +26,7 @@ class Utils {
 
     }
 
-    String formatDate(long dateInMillis, String format_style, boolean in24Hrs) {
+    public String formatDate(long dateInMillis, String format_style, boolean in24Hrs) {
         if (in24Hrs) {
             // Replace hh with bigger HH to transform to 24 system
             format_style = format_style.replace("hh", "HH").replace(" aa", "");
@@ -59,7 +59,7 @@ class Utils {
         return Calendar.getInstance().getTimeInMillis();
     }
 
-    String formatDate(long dateInMillis, String format_style, boolean in24Hrs, String sep) {
+    public String formatDate(long dateInMillis, String format_style, boolean in24Hrs, String sep) {
         // for format 1
         format_style = format_style.replace(" hh:", sep + "hh:");
         // for format 2

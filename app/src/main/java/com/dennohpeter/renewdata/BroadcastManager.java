@@ -31,7 +31,7 @@ public class BroadcastManager extends BroadcastReceiver {
                         String msg_body = smsMessage.getMessageBody();
                         long timestampMillis = smsMessage.getTimestampMillis();
                         // check if it's from Telkom
-                        if (msg_from.toLowerCase().contains(context.getString(R.string.telkom).toLowerCase())) {
+                        if (msg_from != null && msg_from.toLowerCase().contains(context.getString(R.string.telkom).toLowerCase())) {
                             // Save it  to db
                             databaseHelper.create_or_update_logs(msg_from, msg_body, timestampMillis);
                             context.sendBroadcast(new Intent(context.getString(R.string.action_smsReceiver)));
@@ -47,11 +47,6 @@ public class BroadcastManager extends BroadcastReceiver {
                     // when notification is tapped call MainActivity
                     Intent homeTabIntent = new Intent(context, MainActivity.class);
                     PendingIntent HomeTabPendingIntent = PendingIntent.getActivity(context, 0, homeTabIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    // When  renew now action is clicked call RenewActivity
-                    Intent renewNoIntent = new Intent(context, RenewActivity.class);
-                    renewNoIntent.setAction("renewDataFromBroadcast");
-                    renewNoIntent.putExtra("notificationId", notificationId);
-                    PendingIntent renewNoPendingIntent = PendingIntent.getActivity(context, notificationId, renewNoIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     // When  Renew Later action is clicked call Send BroadCast to snooze
                     Intent dismissIntent = new Intent(context, BroadcastManager.class);
                     dismissIntent.setAction("dismissReminder");

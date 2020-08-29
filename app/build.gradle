@@ -26,26 +26,26 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0-alpha02'
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.0'
+    implementation 'androidx.navigation:navigation-ui:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    // for changelog
-    implementation 'com.github.MFlisar:changelog:1.1.6'
-    // http client for making  m-pesa requests
-    implementation 'com.squareup.okhttp3:okhttp:4.5.0'
+
     // preferences for settings
     implementation 'androidx.preference:preference:1.1.1'
-    // Firebase
-    implementation 'com.google.firebase:firebase-config:19.2.0'
-    // Easy Permissions
-    implementation 'pub.devrel:easypermissions:3.0.0'
     // Firebase SDK for Google Analytics
-    implementation 'com.google.firebase:firebase-analytics:17.4.4'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
     // FastScroller
     implementation 'com.simplecityapps:recyclerview-fastscroll:2.0.1'
+
+    // Ads mob
+    implementation 'com.google.android.gms:play-services-ads:19.3.0'
 
 
 }

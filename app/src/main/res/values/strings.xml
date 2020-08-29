@@ -7,25 +7,12 @@
     <string name="time_left">Time Left</string>
     <string name="expired">Expired</string>
     <string name="not_date">__:__:__</string>
-    <string name="feedback_and_suggestions">Feedback &amp; Suggestions</string>
-    <string name="about_renewdata">About Renew Data</string>
-    <string name="email">denispeterson96@gmail.com</string>
+    <string name="about_renewdata">About</string>
     <!--    About activity  -->
     <string name="about">About</string>
-    <string name="app_version">V: %1$s</string>
-    <string name="acknowledgements">Acknowledgements</string>
     <string name="copyright">Built &amp; Designed by <a href="https://dennohpeter.com">Dennis Peterson</a> </string>
-    <string name="rate">Rate</string>
-    <string name="show_changelog">Show Changelog</string>
     <!--    Contributors Credit card -->
-    <string name="ok">OK</string>
-    <string name="role">Developer Role</string>
-    <string name="name">Developer Name</string>
     <!--    Developer names and Roles -->
-    <string name="dev1">Coder Jaymoh</string>
-    <string name="idealist">Idealist</string>
-    <string name="dev2">Symons Ombori</string>
-    <string name="contributor">Contributor</string>
     <string name="select_network">Select Network: </string>
     <string name="date">date</string>
     <string name="message_body">Message body</string>
@@ -34,23 +21,18 @@
     <string name="subscribed">subscribed</string>
     <string name="twenty_four_hour_fmt">Check to display the time in a 24 hour format.</string>
     <string name="twelve_hour_fmt">Uncheck to display the time in a 12 hour format using AM and PM.</string>
-    <string name="default_reminder_time">10</string>
-    <string name="default_snooze_time">5</string>
+    <string name="default_reminder_time">10 minutes</string>
+    <string name="default_snooze_time">5 minutes</string>
     <string name="select_date_format">Select Date Format</string>
     <string name="default_date_format">MMM dd, yyyy hh:mm:ss</string>
     <string name="syncing_with_messages">Syncing with messages…</string>
 
-    <string name="update_option">UPDATE</string>
-    <string name="dismiss_text">OK, Later</string>
-    <string name="write_file">This app needs access to your file storage to save the new apk.</string>
-
-    <string name="update_title">New version is available</string>
-    <string name="update_message">Please update to the new version to get new features.</string>
-    <string name="close">CLOSE</string>
-    <string name="changelog">Changelog</string>
     <string name="action_smsReceiver">action.SmsReceiver</string>
     <string name="change_theme">Change theme</string>
     <string name="refreshMessages">Refresh messages</string>
+    <string name="appAdMobID">ca-app-pub-6672249802346735~6961292388</string>
+    <string name="settings">Settings</string>
+
 
     // supported networks
     <string-array name="networks">
@@ -60,11 +42,46 @@
     // supported languages
     <string-array name="languages">
         <item>English</item>
+        <item>Swahili</item>
     </string-array>
 
+    <string-array name="remindMeBefore">
+        <item>10 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>60 minutes</item>
+    </string-array>
     // date format
     <string-array name="date_formats">
         <item>MMM dd, yyyy hh:mm:ss</item>
         <item>hh:mm:ss MMM dd, yyyy</item>
     </string-array>
+
+    <string-array name="snooze_intervals">
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+    </string-array>
+    <string name="title_activity_main2">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_logs">Logs</string>
+    <string name="title_settings">Settings</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="feedback_and_suggestions"><![CDATA[Feedback & Suggestions]]></string>
+    <string name="sounds_and_notifications"><![CDATA[Sounds & Notifications]]></string>
+    <string name="recommend_to_friends">Recommend to Friends</string>
+    <string name="snooze_reminder_interval">Snooze Reminder Interval</string>
+    <string name="remind_me_before">Remind Me Before</string>
 </resources>

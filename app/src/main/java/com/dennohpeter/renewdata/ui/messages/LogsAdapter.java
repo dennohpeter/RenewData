@@ -1,4 +1,4 @@
-package com.dennohpeter.renewdata;
+package com.dennohpeter.renewdata.ui.messages;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
-
-import org.jetbrains.annotations.NotNull;
+import com.dennohpeter.renewdata.MessageModel;
+import com.dennohpeter.renewdata.R;
 
 import java.util.ArrayList;
 
-public class LogsAdapter extends RecyclerView.Adapter<LogsViewHolder> implements FastScrollRecyclerView.SectionedAdapter {
+public class LogsAdapter extends RecyclerView.Adapter<LogsViewHolder> {
     private ArrayList<MessageModel> messages;
 
     LogsAdapter() {
@@ -47,10 +46,4 @@ public class LogsAdapter extends RecyclerView.Adapter<LogsViewHolder> implements
         return messages.size();
     }
 
-    @NotNull
-    @Override
-    public String getSectionName(int position) {
-        return messages.get(position).getDate();
-
-    }
 }

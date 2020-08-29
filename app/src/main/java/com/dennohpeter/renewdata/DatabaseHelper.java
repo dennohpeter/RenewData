@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "renew_data.db";
     private static final String LOGS_QUERY = "CREATE TABLE logs_table (msg_from TEXT, msg_body TEXT, received_date INTEGER UNIQUE);";
 
-    DatabaseHelper(Context context) {
+    public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    void create_or_update_logs(String msg_from, String msg_body, long received_date) {
+    public void create_or_update_logs(String msg_from, String msg_body, long received_date) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("msg_from", msg_from);
@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    Cursor getLogMessages(SQLiteDatabase db) {
+    public Cursor getLogMessages(SQLiteDatabase db) {
         String[] columns = {"msg_from", "msg_body", "received_date"};
         String orderBy = "received_date " + "DESC";
         return db.query("logs_table", columns, null, null, null, null, orderBy);

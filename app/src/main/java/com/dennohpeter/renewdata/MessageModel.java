@@ -5,17 +5,17 @@ public class MessageModel {
     private String message;
     private String sender;
 
-    MessageModel(String date, String message, String sender) {
+    public MessageModel(String date, String message, String sender) {
         this.date = date;
         this.message = message;
         this.sender = sender;
     }
 
-    String getDate() {
+    public String getDate() {
         return date;
     }
 
-    String getMessage() {
+    public String getMessage() {
         return message;
     }
 

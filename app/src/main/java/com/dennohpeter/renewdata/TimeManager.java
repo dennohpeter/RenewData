@@ -6,13 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.concurrent.TimeUnit;
 
-class TimeManager {
+public class TimeManager {
     private Utils utils;
     private long purchase_time;
     private long expiry_time;
     private DatabaseHelper databaseHelper;
 
-    TimeManager(Context context) {
+    public TimeManager(Context context) {
         databaseHelper = new DatabaseHelper(context);
         utils = new Utils();
 
@@ -20,24 +20,24 @@ class TimeManager {
         setFieldMembers(context);
     }
 
-    long getPurchase_time() {
+    public long getPurchase_time() {
         return purchase_time;
     }
 
-    long getExpiry_time() {
+    public long getExpiry_time() {
         return expiry_time;
     }
 
-    long getTimeLeftInMillis() {
+    public long getTimeLeftInMillis() {
         long currentTime = utils.currentDate();
         return expiry_time - currentTime;
     }
 
-    int getTimeLeftInMins() {
+    public int getTimeLeftInMins() {
         return (int) TimeUnit.MILLISECONDS.toMinutes(getTimeLeftInMillis());
     }
 
-    boolean isExpired() {
+    public boolean isExpired() {
         return getTimeLeftInMillis() < 0;
     }
 
