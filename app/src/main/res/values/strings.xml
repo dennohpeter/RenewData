@@ -7,12 +7,10 @@
     <string name="time_left">Time Left</string>
     <string name="expired">Expired</string>
     <string name="not_date">__:__:__</string>
-    <string name="about_renewdata">About</string>
     <!--    About activity  -->
     <string name="about">About</string>
     <string name="copyright">Built &amp; Designed by <a href="https://dennohpeter.com">Dennis Peterson</a> </string>
-    <!--    Contributors Credit card -->
-    <!--    Developer names and Roles -->
+
     <string name="select_network">Select Network: </string>
     <string name="date">date</string>
     <string name="message_body">Message body</string>
@@ -31,57 +29,30 @@
     <string name="change_theme">Change theme</string>
     <string name="refreshMessages">Refresh messages</string>
     <string name="appAdMobID">ca-app-pub-6672249802346735~6961292388</string>
-    <string name="settings">Settings</string>
 
-
-    // supported networks
-    <string-array name="networks">
-        <item>Telkom</item>
-    </string-array>
-
-    // supported languages
-    <string-array name="languages">
-        <item>English</item>
-        <item>Swahili</item>
-    </string-array>
-
-    <string-array name="remindMeBefore">
-        <item>10 minutes</item>
-        <item>30 minutes</item>
-        <item>45 minutes</item>
-        <item>60 minutes</item>
-    </string-array>
-    // date format
-    <string-array name="date_formats">
-        <item>MMM dd, yyyy hh:mm:ss</item>
-        <item>hh:mm:ss MMM dd, yyyy</item>
-    </string-array>
-
-    <string-array name="snooze_intervals">
-        <item>5 minutes</item>
-        <item>10 minutes</item>
-    </string-array>
     <string name="title_activity_main2">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_logs">Logs</string>
     <string name="title_settings">Settings</string>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="feedback_and_suggestions"><![CDATA[Feedback & Suggestions]]></string>
-    <string name="sounds_and_notifications"><![CDATA[Sounds & Notifications]]></string>
+    <string name="feedback_and_suggestions">Feedback &amp; Suggestions</string>
+    <string name="sounds_and_notifications">Sounds &amp; Notifications</string>
     <string name="recommend_to_friends">Recommend to Friends</string>
     <string name="snooze_reminder_interval">Snooze Reminder Interval</string>
     <string name="remind_me_before">Remind Me Before</string>
+    <string name="permission_sms_rationale">To sync with messages, grant <b>%1$s</b>  Read SMS permission.</string>
+    <string name="permission_sms_denied">Can\'t sync messages. Read SMS permission is required.</string>
+    <string name="permission_sms_never_ask_again">Can\'t sync messages. Read SMS permission is required.</string>
+    <string name="not_now">Not Now</string>
+    <string name="permission_phone_state_rationale">To get available network operators, allow <b>%1$s</b> to read phone state.</string>
+    <string name="permission_phone_state_denied">Can\'t get phone state status. Read PHONE STATE permission is required</string>
+    <string name="permission_phone_state_never_ask_again">Can\'t get phone state status. Read PHONE STATE permission is required</string>
+    <string name="selected_network">selected_network</string>
+    <string name="networks">networks</string>
+    <string name="select_default_network">Select default network</string>
+    <string name="adjust_tracker">adjust tracker</string>
+    <string name="adjust_purchased_time">Adjust Purchased Time</string>
+    <string name="change_subscription_plan">Change Subscription Plan</string>
+    <string name="adjust_alarm_settings">Adjust Alarm Settings</string>
+    <string name="save">Save</string>
 </resources>

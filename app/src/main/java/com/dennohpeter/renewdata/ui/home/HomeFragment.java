@@ -13,6 +13,7 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.preference.PreferenceManager;
@@ -33,6 +34,7 @@ public class HomeFragment extends androidx.fragment.app.Fragment {
     private String format_style, remindBeforeInMins;
     private boolean in24hrsFormat;
     private Context context;
+
     private BroadcastReceiver smsReceivedListener = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -58,6 +60,9 @@ public class HomeFragment extends androidx.fragment.app.Fragment {
         purchased_tmView = root.findViewById(R.id.purchased_time);
         expiry_tmView = root.findViewById(R.id.expiry_time);
         tm_leftView = root.findViewById(R.id.time_left);
+        ImageView adjust_alarm = root.findViewById(R.id.adjust_alarm);
+
+        adjust_alarm.setOnClickListener(v -> showAdjustAlarmWidget());
 
 //        Button renew_now = root.findViewById(R.id.renew_now);
         // get preferences
@@ -83,6 +88,11 @@ public class HomeFragment extends androidx.fragment.app.Fragment {
         // Set Alarm Reminder
         setAlarmReminder();
         return root;
+    }
+
+    private void showAdjustAlarmWidget() {
+        startActivity(new Intent(context, AdjustAlarmActivity.class));
+
     }
 
     private void setTimeLineData() {

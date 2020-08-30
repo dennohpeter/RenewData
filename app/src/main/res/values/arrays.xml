@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="tab_titles">
-        <item>Home</item>
-        <item>@string/settings</item>
-        <item>Messages</item>
+    // supported languages
+    <string-array name="remindMeBefore">
+        <item>10 minutes</item>
+        <item>30 minutes</item>
+        <item>45 minutes</item>
+        <item>60 minutes</item>
     </string-array>
-    <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
+    // date format
+    <string-array name="date_formats">
+        <item>MMM dd, yyyy hh:mm:ss</item>
+        <item>hh:mm:ss MMM dd, yyyy</item>
     </string-array>
 
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
+    <string-array name="snooze_intervals">
+        <item>5 minutes</item>
+        <item>10 minutes</item>
     </string-array>
+    <string-array name="subscription_plans">
+        <item> Hourly</item>
+        <item> 24 hours</item>
+        <item> Weekly</item>
+        <item> Monthly</item>
+    </string-array>
+
 </resources>

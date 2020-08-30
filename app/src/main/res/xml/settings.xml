@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ListPreference
-        android:defaultValue="@string/telkom"
-        android:entries="@array/networks"
-        android:entryValues="@array/networks"
-        android:icon="@drawable/ic_network"
-        android:key="select_network"
-        android:summary="Select default network"
-        android:title="@string/select_network" />
-
+    <PreferenceCategory android:key="@string/networks">
+        <Preference
+            android:icon="@drawable/ic_network"
+            android:key="@string/selected_network"
+            android:summary="@string/select_default_network"
+            android:title="@string/select_network" />
+    </PreferenceCategory>
     <PreferenceCategory>
         <CheckBoxPreference
             android:defaultValue="false"
@@ -28,38 +26,35 @@
             android:title="Date Format" />
         <ListPreference
             android:defaultValue="@string/default_reminder_time"
-            android:icon="@drawable/ic_remind_before"
-            android:key="remindBeforeInMinutes"
             android:entries="@array/remindMeBefore"
             android:entryValues="@array/remindMeBefore"
+            android:icon="@drawable/ic_remind_before"
+            android:key="remindBeforeInMinutes"
             android:summary="Set minutes to be reminded before expiry"
             android:title="@string/remind_me_before" />
         <ListPreference
             android:defaultValue="@string/default_snooze_time"
             android:dialogTitle="Snooze for"
-            android:icon="@drawable/ic_snooze"
-            android:key="snooze_time"
             android:entries="@array/snooze_intervals"
             android:entryValues="@array/snooze_intervals"
+            android:icon="@drawable/ic_snooze"
+            android:key="snooze_time"
             android:summary="Set time in minutes before next alarm reminder"
             android:title="@string/snooze_reminder_interval" />
         <Preference
             android:icon="@drawable/ic_sound_and_notifications"
-            app:title="@string/sounds_and_notifications"
             android:key="sounds_and_notifications"
-            />
+            app:title="@string/sounds_and_notifications" />
     </PreferenceCategory>
     <PreferenceCategory>
         <Preference
             android:icon="@drawable/ic_baseline_settings_24"
             android:key="general"
-            android:title="General"
-            />
+            android:title="General" />
         <Preference
             android:icon="@drawable/ic_recommend"
             android:key="recommend_to_friends"
-            android:title="@string/recommend_to_friends"
-            />
+            android:title="@string/recommend_to_friends" />
         <Preference
             android:icon="@drawable/ic_feedback"
             android:key="feedback_and_suggestions"

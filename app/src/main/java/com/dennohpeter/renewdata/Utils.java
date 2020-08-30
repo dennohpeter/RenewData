@@ -1,5 +1,6 @@
 package com.dennohpeter.renewdata;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
@@ -7,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import permissions.dispatcher.PermissionRequest;
 
 /*
  * Houses commonly used date functions
@@ -65,5 +68,11 @@ public class Utils {
         // for format 2
         format_style = format_style.replace(":ss MM", ":ss" + sep + "MM");
         return formatDate(dateInMillis, format_style, in24Hrs);
+    }
+
+    public void showRationaleDialog(Context context, String permission_rationale, PermissionRequest request) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(permission_rationale);
+        builder.setPositiveButton(R.string.action_ok, (dialog, which) -> request.proceed()).setNegativeButton(context.getString(R.string.not_now), (dialog, which) -> request.cancel()).show();
     }
 }

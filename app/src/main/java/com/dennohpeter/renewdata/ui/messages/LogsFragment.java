@@ -1,11 +1,9 @@
 package com.dennohpeter.renewdata.ui.messages;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -22,9 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,20 +30,30 @@ import com.dennohpeter.renewdata.MessageModel;
 import com.dennohpeter.renewdata.R;
 import com.dennohpeter.renewdata.Utils;
 
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
+
+@RuntimePermissions
 public class LogsFragment extends androidx.fragment.app.Fragment {
-    private static final int SMS_PERMISSION_CODE = 12;
     private static RecyclerView recyclerView;
     private static DatabaseHelper databaseHelper;
     private static LogsAdapter logsAdapter;
     private static String format_style;
     private static boolean in24hrsFormat;
+    private final String SMS_PERMISSION = Manifest.permission.READ_SMS;
+    private int SMS_PERMISSION_CODE = 12;
     private ProgressDialog progressDialog;
     private SQLiteDatabase db;
     private MenuItem refreshMessages;
     private TextView nothing_to_show;
     private Context context;
     private SwipeRefreshLayout refreshLayout;
-    private  ProgressBar progressBar;
+    private ProgressBar progressBar;
+    private Utils utils;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +67,7 @@ public class LogsFragment extends androidx.fragment.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_logs, container, false);
         this.context = getContext();
+        this.utils = new Utils();
         // Bind views
         refreshLayout = root.findViewById(R.id.refreshLayout);
         setSwipeRefreshView();
@@ -101,80 +107,40 @@ public class LogsFragment extends androidx.fragment.app.Fragment {
         if (item == refreshMessages) {
             refreshLayout.setRefreshing(true);
             // refresh messages
-            refreshMessages();
+            LogsFragmentPermissionsDispatcher.refreshMessagesWithPermissionCheck(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void refreshMessages() {
-        if (isSmsPermissionGranted(getActivity())) {
-            new SyncMessages().execute();
-        } else {
-            // request permission
-            requestReadSmsPermission(getActivity());
-            refreshLayout.setRefreshing(false);
-
-        }
+    @NeedsPermission(SMS_PERMISSION)
+    void refreshMessages() {
+        new SyncMessages().execute();
     }
 
-    /*
-     * Check if we have sms permission
-     */
-    private boolean isSmsPermissionGranted(Activity activity) {
-        return ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED;
+    @OnShowRationale(SMS_PERMISSION)
+    void showRationaleForSMS(PermissionRequest request) {
+        utils.showRationaleDialog(context, getString(R.string.permission_sms_rationale, getString(R.string.app_name)), request);
     }
 
-    /*
-     * Request runtime SMS Permission
-     */
-    private void requestReadSmsPermission(Activity activity) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_SMS)) {
-            // None blocking explanation
-            showRequestPermissionsInfoAlertDialog(getContext(), activity);
-        } else {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
-        }
+    @OnPermissionDenied(SMS_PERMISSION)
+    void onSMSDenied() {
+        Toast.makeText(context, R.string.permission_sms_denied, Toast.LENGTH_SHORT).show();
+        refreshLayout.setRefreshing(false);
     }
 
-    private void showRequestPermissionsInfoAlertDialog(Context context, Activity activity) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("To sync with messages, allow " + context.getString(R.string.app_name) + " to access sms.");
-
-        builder.setPositiveButton(R.string.action_ok, (dialog, which) -> {
-            //  request runtime permission
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
-        }).setNegativeButton("Not Now", (dialog, which) -> {
-            dialog.dismiss();
-            Toast.makeText(context, "Syncing cancelled..", Toast.LENGTH_SHORT).show();
-        });
-        builder.setCancelable(false);
-        builder.show();
-
-
+    @OnNeverAskAgain(SMS_PERMISSION)
+    void onSMSNeverAskAgain() {
+        Toast.makeText(context, R.string.permission_sms_never_ask_again, Toast.LENGTH_SHORT).show();
+        refreshLayout.setRefreshing(false);
     }
-
-    /*
-     * Displays an Alert Dialog explaining to the user what SMS permission for.
-     *
-     * @param makeSystemRequest if set to true the system permission will be granted when it's dismissed
-     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == SMS_PERMISSION_CODE) {
-            // If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                new SyncMessages().execute();
-
-            } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Can't sync messages. Read SMS permission is required");
-                builder.setCancelable(true);
-                builder.show();
-            }
-        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        LogsFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
+
     private void setSwipeRefreshView() {
         // the refreshing colors
         refreshLayout.setColorSchemeColors(getResources().
@@ -183,9 +149,12 @@ public class LogsFragment extends androidx.fragment.app.Fragment {
                 , getResources().getColor(android.R.color.holo_orange_light),
                 getResources().getColor(android.R.color.holo_red_light));
 
-        refreshLayout.setOnRefreshListener(this::refreshMessages);
+        refreshLayout.setOnRefreshListener(() -> {
+            LogsFragmentPermissionsDispatcher.refreshMessagesWithPermissionCheck(this);
+        });
     }
-    private  class populateRecyclerView extends AsyncTask<Void, MessageModel, Void> {
+
+    private class populateRecyclerView extends AsyncTask<Void, MessageModel, Void> {
         Cursor cursor;
         SQLiteDatabase db;
 

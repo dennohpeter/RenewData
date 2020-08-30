@@ -46,6 +46,9 @@ dependencies {
 
     // Ads mob
     implementation 'com.google.android.gms:play-services-ads:19.3.0'
+    // Permissions dispatcher
+    implementation "org.permissionsdispatcher:permissionsdispatcher:4.7.0"
+    annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:4.7.0"
 
 
 }
