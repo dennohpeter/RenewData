@@ -42,7 +42,7 @@ public class BroadcastManager extends BroadcastReceiver {
                     // create notificationID
                     notificationId = (int) System.currentTimeMillis();
                     // Get remaining time from intent
-                    int remindBeforeInMins = intent.getIntExtra("remindBeforeInMins", 0);
+                    int remindBeforeInMins = intent.getIntExtra(context.getString(R.string.remindBeforeInMins), 0);
 
                     // when notification is tapped call MainActivity
                     Intent homeTabIntent = new Intent(context, MainActivity.class);

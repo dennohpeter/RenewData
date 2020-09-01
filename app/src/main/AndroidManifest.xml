@@ -28,8 +28,7 @@
         <activity
             android:name=".ui.home.AdjustAlarmActivity"
             android:label="@string/adjust_alarm_settings"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".MainActivity" />
 
         <receiver
             android:name=".BroadcastManager"

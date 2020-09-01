@@ -1,75 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/changePurchasedTimeField"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/input_vertical_margin"
+        android:hint="@string/adjust_purchased_time"
+        app:endIconContentDescription="@string/adjust_purchased_time"
+        app:endIconDrawable="@drawable/ic_baseline_access_time_24"
+        app:endIconMode="custom"
+        app:startIconContentDescription="@string/purchased_time"
+        app:startIconDrawable="@drawable/ic_baseline_date_range_24">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <Button
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/save"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                    android:textColor="@color/design_default_color_on_primary" />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/changePurchasedTimeField"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/purchased_time_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/purchased_time"
-            app:endIconContentDescription="@string/adjust_purchased_time"
-            app:endIconDrawable="@drawable/ic_baseline_edit_24"
-            app:endIconMode="custom"
-            app:startIconContentDescription="@string/purchased_time"
-            app:startIconDrawable="@drawable/ic_baseline_date_range_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            android:enabled="false" />
 
 
-        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/subscription_plan"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/subscription_plan"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/input_vertical_margin"
+        android:hint="@string/change_subscription_plan"
+        android:labelFor="@+id/select_subscription_plan"
+        app:startIconDrawable="@drawable/ic_baseline_hourglass_empty_24">
+
+        <AutoCompleteTextView
+            android:id="@+id/select_subscription_plan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/change_subscription_plan"
-            android:labelFor="@+id/select_subscription_plan"
-            app:startIconDrawable="@drawable/ic_baseline_hourglass_empty_24">
+            android:inputType="none" />
 
-            <AutoCompleteTextView
-                android:id="@+id/select_subscription_plan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/input_vertical_margin">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveAdjustments"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:enabled="false"
+            android:onClick="saveAlarmSettings"
+            android:text="@string/save"
+            android:textColor="@color/design_default_color_on_primary"
+            app:cornerRadius="4dp" />
+    </RelativeLayout>
+</LinearLayout>

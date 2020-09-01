@@ -32,7 +32,7 @@ public class HomeFragment extends androidx.fragment.app.Fragment {
     private Utils utils;
     private TimeManager timeManager;
     private String format_style, remindBeforeInMins;
-    private boolean in24hrsFormat;
+    private boolean is24hrsFormat;
     private Context context;
 
     private BroadcastReceiver smsReceivedListener = new BroadcastReceiver() {
@@ -67,7 +67,7 @@ public class HomeFragment extends androidx.fragment.app.Fragment {
 //        Button renew_now = root.findViewById(R.id.renew_now);
         // get preferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        in24hrsFormat = preferences.getBoolean("twenty4_hour_clock", false);
+        is24hrsFormat = preferences.getBoolean("twenty4_hour_clock", false);
         format_style = preferences.getString("format_style", getString(R.string.default_date_format));
         remindBeforeInMins = preferences.getString("remindBeforeInMinutes", getString(R.string.default_reminder_time));
         if (remindBeforeInMins != null) {
@@ -91,16 +91,20 @@ public class HomeFragment extends androidx.fragment.app.Fragment {
     }
 
     private void showAdjustAlarmWidget() {
-        startActivity(new Intent(context, AdjustAlarmActivity.class));
+        Intent intent = new Intent(context, AdjustAlarmActivity.class);
+        intent.putExtra("purchaseTime", timeManager.getPurchaseTime());
+        intent.putExtra("formatStyle", format_style);
+        intent.putExtra("is24HourFormat", is24hrsFormat);
+        startActivity(intent);
 
     }
 
     private void setTimeLineData() {
-        long purchase_time = timeManager.getPurchase_time();
-        long expiry_time = timeManager.getExpiry_time();
+        long purchase_time = timeManager.getPurchaseTime();
+        long expiry_time = timeManager.getExpiryTime();
         if (purchase_time > 0) {
-            String purchase_date = utils.formatDate(purchase_time, format_style, in24hrsFormat);
-            String expiry_date = utils.formatDate(expiry_time, format_style, in24hrsFormat);
+            String purchase_date = utils.formatDate(purchase_time, format_style, is24hrsFormat);
+            String expiry_date = utils.formatDate(expiry_time, format_style, is24hrsFormat);
 
             purchased_tmView.setText(purchase_date);
             expiry_tmView.setText(expiry_date);
@@ -136,7 +140,7 @@ public class HomeFragment extends androidx.fragment.app.Fragment {
     private void setAlarmReminder() {
         // Set notification and time left
         Intent intent = new Intent(getContext(), BroadcastManager.class);
-        intent.putExtra("remindBeforeInMins", remindBeforeInMins);
+        intent.putExtra(context.getString(R.string.remindBeforeInMins), remindBeforeInMins);
         intent.setAction("android.intent.startAlarm");
         // getBroadCast(context, requestCode, intent, flags)
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -147,7 +151,7 @@ public class HomeFragment extends androidx.fragment.app.Fragment {
 
         // create time to ring;
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timeManager.getExpiry_time());
+        calendar.setTimeInMillis(timeManager.getExpiryTime());
         // time in minutes to remind before to renew before expiry
         // Note the -ve sign is to make it before.
         calendar.add(Calendar.MINUTE, -(remBeforeInMins));

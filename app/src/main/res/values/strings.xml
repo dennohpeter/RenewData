@@ -55,4 +55,11 @@
     <string name="change_subscription_plan">Change Subscription Plan</string>
     <string name="adjust_alarm_settings">Adjust Alarm Settings</string>
     <string name="save">Save</string>
+    <string name="remindBeforeInMins">remindBeforeInMins</string>
+    <string name="confirm_changes">Confirm Changes</string>
+    <string name="save_changes_message">Do you want to save changes?</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="subscription_plan">subscriptionPlan</string>
+    <string name="app_preferences">appPreferences</string>
 </resources>

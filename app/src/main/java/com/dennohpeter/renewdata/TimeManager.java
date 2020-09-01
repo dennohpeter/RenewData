@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 public class TimeManager {
     private Utils utils;
-    private long purchase_time;
-    private long expiry_time;
+    private long purchaseTime;
+    private long expiryTime;
     private DatabaseHelper databaseHelper;
 
     public TimeManager(Context context) {
@@ -20,17 +20,17 @@ public class TimeManager {
         setFieldMembers(context);
     }
 
-    public long getPurchase_time() {
-        return purchase_time;
+    public long getPurchaseTime() {
+        return purchaseTime;
     }
 
-    public long getExpiry_time() {
-        return expiry_time;
+    public long getExpiryTime() {
+        return expiryTime;
     }
 
     public long getTimeLeftInMillis() {
         long currentTime = utils.currentDate();
-        return expiry_time - currentTime;
+        return expiryTime - currentTime;
     }
 
     public int getTimeLeftInMins() {
@@ -46,8 +46,8 @@ public class TimeManager {
         Cursor cursor = databaseHelper.getLogMessages(db);
         while (cursor.moveToNext()) {
             if (cursor.getString(cursor.getColumnIndex("msg_body")).contains(context.getString(R.string.subscribed))) {
-                this.purchase_time = cursor.getLong(cursor.getColumnIndex("received_date"));
-                this.expiry_time = utils.add24Hours(purchase_time);
+                this.purchaseTime = cursor.getLong(cursor.getColumnIndex("received_date"));
+                this.expiryTime = utils.add24Hours(purchaseTime);
                 break;
             }
         }
